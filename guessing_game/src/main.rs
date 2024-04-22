@@ -17,9 +17,10 @@ use rand::Rng;
 fn main() {
     // start..=end - inclusive on the lower and upper bounds
     let secret_number: u32 = rand::thread_rng().gen_range(1..=100); 
-
+    let mut lives: u32 = 10;
+    
     println!("Guessing Game");
-    println!("Guess the number, range 1 to 100!");
+    println!("Guess the number, the range is from 1 to 100. You have {lives} lives!");
 
     loop {
         let mut guess: String = String::new();
@@ -31,22 +32,34 @@ fn main() {
         let guess_u32: u32 = match guess.trim().parse()  {
             Ok(num) => num,
             Err(_) => {
-                println!("Failed to parse \"{}\" as a number", guess.trim());
-                break
+                println!("Failed to parse \"{}\" as a number. Please, input a valid number..", guess.trim());
+                continue
             }
         };
-            // .expect(&format!("Failed to parse \"{}\" as a number", guess.trim()));
 
         println!("You guessed: {guess}");
         match guess_u32.cmp(&secret_number) {
-            Ordering::Less => println!("Too small!"),
-            Ordering::Greater => println!("Too big!"),
+            Ordering::Less => {
+                println!("Too small!");
+                lives -= 1;
+            }
+            Ordering::Greater => { 
+                println!("Too big!");
+                lives -= 1;
+            }
             Ordering::Equal => { 
                 println!("You win!");
                 break;
             }
         }
+
+        println!("You have {lives} lives left!\n");
+
+        if lives == 0 {
+            println!("You lost! The secret number is {secret_number}");
+            break;
+        }
     }
 
-    println!("The secret number is {secret_number}");
+    
 }
