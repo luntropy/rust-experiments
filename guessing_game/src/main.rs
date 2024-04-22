@@ -11,9 +11,6 @@ use rand::Rng;
     the game will print a congratulatory message and exit.
 */
 
-// To Do - add number or retries
-// To Do - do not reduce the number of retries when out of range
-
 fn main() {
     // start..=end - inclusive on the lower and upper bounds
     let secret_number: u32 = rand::thread_rng().gen_range(1..=100); 
@@ -60,6 +57,4 @@ fn main() {
             break;
         }
     }
-
-    
 }
